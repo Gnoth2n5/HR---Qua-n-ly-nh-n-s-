@@ -1,0 +1,30 @@
+.card .card-body .nav li a {
+    padding: 10px 15px;
+    font-size: 15px;
+    color: black;
+}
+
+a.active.show {
+    border: double;
+    padding: 10px 20px;
+    background-color: cornflowerblue;
+}
+
+.card .card-body .nav li a:hover {
+    color: blue;
+}
+
+#chucvu,
+#luong,
+#giahan,
+#khac,
+#ngay,
+#ketthuc,
+#time,
+#luong,
+#ndthoivu,
+#dem1,
+#dem2,
+#dem3 {
+    display: none;
+}

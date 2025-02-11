@@ -1,0 +1,431 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul .active {
+    background-color: #9292f8;
+    border-radius: 12px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Alata', sans-serif;
+}
+
+p {
+    margin: 0 0 10px;
+    font-family: 'Comfortaa', cursive;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+.header {
+    font-family: "Algerian";
+    display: flex;
+    padding: 20px 0;
+    position: fixed;
+    z-index: 99;
+    background: white;
+    width: 100%;
+    left: 0;
+    height: 100px;
+    justify-content: space-evenly;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+.header.shrink {
+    height: 80px;
+    /* line-height: 80px; */
+}
+
+.shrink .logo {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    /* margin-top: -15px; */
+}
+
+.header .navigate {
+    display: flex;
+    align-items: center;
+}
+
+.header .navigate ul {
+    display: flex;
+    justify-content: center;
+}
+
+.header .navigate ul li {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header .navigate ul li a::before {
+    position: absolute;
+    width: 0%;
+    background-color: #3838d2;
+    height: 2px;
+    content: "";
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.header .navigate ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 21px;
+    position: relative;
+    padding-bottom: 5px;
+    font-weight: 500;
+}
+
+.header .navigate ul li a:hover {
+    color: #3838d2;
+    transition: 0.6 all;
+}
+
+.header .navigate ul li a:hover::before {
+    width: 100%;
+    transition: 0.6s all;
+}
+
+.clear-fix {
+    display: block;
+    clear: both;
+}
+
+.owl-stage {
+    margin-top: 100px;
+}
+
+.banner {
+    background-color: black;
+}
+
+.page-intro h1 {
+    text-align: center;
+    margin-top: 35px;
+    font-family: "Algerian";
+}
+
+.page-content {
+    padding: 35px 0;
+}
+
+.page-content p {
+    font-size: 16px;
+    text-align: justify;
+    font-family: "UTM Avo";
+    padding-bottom: 15px;
+    padding-bottom: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 26px;
+    -webkit-line-clamp: 6;
+    height: 163px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+a.view-intro {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.page-intro .page-img img {
+    max-width: 100%;
+}
+
+.page-content .page-content-row .img-right {
+    display: flex;
+    justify-content: center;
+}
+
+.page-content .page-content-row .img-right img {
+    width: 420px;
+}
+
+.bg-newfeed {
+    background-image: url(https://yoshigroup.jp/wp-content/uploads/2019/06/business-01.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-attachment: fixed;
+}
+
+.bg-newfeed::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.bg-newfeed h1 {
+    color: #fff;
+    z-index: 99;
+}
+
+#page-news {
+    margin-top: 40px;
+}
+
+.page-new {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.page-new .inner {
+    box-shadow: 2px 2px 6px 4px rgba(0, 0, 0, 0.3);
+}
+
+.page-new a {
+    margin-top: 25px;
+    text-decoration: none;
+}
+
+.page-new .inner .page-new-img img {
+    padding: 15px;
+    width: 400px;
+    height: 320px;
+}
+
+.page-new .inner .page-new-content .type-title {
+    display: block;
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    padding-top: 15px;
+    transition: 0.5s;
+    padding-bottom: 30px;
+}
+
+.page-new .inner:hover .type-title {
+    color: red;
+}
+
+.page-new .inner .page-new-content .desc {
+    font-weight: 500;
+    color: black;
+    padding: 10px;
+    color: red;
+    text-transform: uppercase;
+}
+
+.page-why h1 {
+    font-family: "Roboto Condensed";
+    text-align: center;
+    font-weight: 900;
+}
+
+.page-title h1 {
+    margin-top: 35px;
+    font-weight: 500;
+}
+
+.page-content {
+    padding: 35px 0;
+}
+
+.bg-footer {
+    padding: 25px 0;
+    background-color: #0c71c3 !important;
+}
+
+.bg-footer .inner .ft-title span {
+    display: block;
+    font-size: 24px;
+}
+
+.bg-footer .inner-qr-code {
+    text-align: center;
+}
+
+.bg-footer .inner img.qr-code {
+    width: 50%;
+}
+
+.bg-footer .inner .menu-ft ul {
+    padding: 0;
+    padding-left: 20px;
+}
+
+.bg-footer .inner .menu-ft ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.cpry-right {
+    background: black;
+}
+
+.cpry-right span {
+    display: block;
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+}
+
+
+/*TIN TUC SU KIEN*/
+
+.all-newsfeed hr {
+    margin-top: -15px;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 3px solid rgba(0, 0, 0, .1);
+}
+
+.all-newsfeed {
+    padding-top: 130px;
+}
+
+.all-newsfeed .breadcrumb {
+    background: transparent;
+    padding: 0;
+    padding-top: 10px;
+}
+
+.all-newsfeed .breadcrumb li {
+    list-style: none;
+}
+
+.all-newsfeed .breadcrumb li a {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.all-newsfeed .breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/\00a0";
+}
+
+.all-newsfeed .breadcrumb li a.active {
+    color: black;
+}
+
+.all-newsfeed .page-title h1 {
+    margin-top: 35px;
+    font-weight: 500;
+    margin-bottom: 17px;
+}
+
+
+/*tin tuc su kien*/
+
+.all-newsfeed .navigate {
+    display: flex;
+    align-items: center;
+}
+
+.all-newsfeed .page-new {
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.all-newsfeed .page-new .inner_new {
+    padding-bottom: 20px;
+}
+
+.all-newsfeed .navigate ul {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.all-newsfeed .navigate ul li {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0 17px;
+}
+
+.all-newsfeed .navigate ul li a::before {
+    position: absolute;
+    width: 0%;
+    background-color: #3838d2;
+    height: 2px;
+    content: "";
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.all-newsfeed .navigate ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    position: relative;
+    padding-bottom: 5px;
+    font-weight: 800;
+}
+
+.all-newsfeed .navigate ul li a:hover {
+    color: #3838d2;
+    transition: 0.6 all;
+}
+
+.all-newsfeed .navigate ul li a:hover::before {
+    width: 100%;
+    transition: 0.6s all;
+}
+
+.all-newsfeed .navigate ul .active_new a::before {
+    position: absolute;
+    width: 100%;
+    background-color: #3838d2;
+    height: 2px;
+    content: "";
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+}
+
+
+/*detailnew*/
+
+.well {
+    padding-bottom: 25px;
+}
+
+.media {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.page-content1 {
+    font-size: 17px;
+    text-align: justify;
+    font-family: "UTM Avo";
+    padding-bottom: 15px;
+    padding-bottom: 35px;
+    line-height: 25px;
+}
+
+.page-content1 p {
+    margin-bottom: 15px;
+}
+
+.page-content1 img {
+    width: 100%;
+    height: 100%;
+}
