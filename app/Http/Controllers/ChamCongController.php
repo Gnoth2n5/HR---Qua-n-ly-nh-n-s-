@@ -9,29 +9,44 @@ use App\Models\tbl_tangca;
 use App\Models\tbl_luuykien;
 use App\Models\tbl_hosonhanvien;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Eloquents\ChamCongRepository;
+use App\Repositories\Eloquents\TangCaRepository;
+
 class ChamCongController extends Controller
 {
+    protected $chamCongRepository;
+    protected $tangCaRepository;
+
+    public function __construct(ChamCongRepository $chamCongRepository, TangCaRepository $tangCaRepository)
+    {
+        $this->chamCongRepository = $chamCongRepository;
+        $this->tangCaRepository = $tangCaRepository;
+    }
+
+
     public function getChamCong(){
         // $cac=tbl_bangluong::where('id_nhanvien',Auth::user()->id_nhanvien)
         //         ->where('luong_thang',date('Y-m-1'))->exists(); var_dump($cac);exit;
-        if(!tbl_bangluong::where('id_nhanvien',Auth::user()->id_nhanvien)->where('luong_thang',date('Y-m-1'))->exists())
-        {
-                $newbl = new tbl_bangluong;
-                $newbl->luong_thang = date("Y-m-1");
-                $newbl->id_nhanvien = Auth::user()->id_nhanvien;
-                $newbl->save();
+        $idNhanVien = Auth::user()->id_nhanvien;
+        $thang = date('m');
+
+        $bangluong = $this->chamCongRepository->getBangLuongThang($idNhanVien, $thang);
+
+        if(!$bangluong){
+            $attributes = [
+                'luong_thang' => date('Y-m-1'),
+                'id_nhanvien' => $idNhanVien
+            ];
+            $this->chamCongRepository->createBangLuong($attributes);
         }
-        $bangluong = tbl_bangluong::whereMonth('luong_thang',date('m'))
-                ->where('id_nhanvien',Auth::user()->id_nhanvien)
-                ->first();
-        $lichsu = tbl_chamcong::where('id_bangluong',$bangluong->id_bangluong)->get();
-        $chamcong = tbl_chamcong::where('id_bangluong',$bangluong->id_bangluong)
-                ->where('check_in','like', date('Y-m-d').'%')
-                ->first();
-               //var_dump($chamcong); exit;
-        $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
-               ->where('check_in','like', date('Y-m-d').'%')
-               ->first();
+
+        $lichsu = $this->chamCongRepository->getChamCongTheoBangLuong($bangluong->id_bangluong);
+
+
+        $chamcong = $this->chamCongRepository->getChamCongHomNay($bangluong->id_bangluong);
+
+        $tangca = $this->tangCaRepository->getTangCaHomNay($idNhanVien);
+
         $ngaynghi = getNgayNghi();
         
         return view('layout.chamcong.frmchamcong', compact('lichsu','chamcong','bangluong','ngaynghi','tangca'));
@@ -93,41 +108,45 @@ class ChamCongController extends Controller
 //     }
  
     public function getTangCa(){
-        if(!tbl_luuykien::where('id_ykien',7)
-                ->where('ngay_bat_dau',date('Y-m-d'))
-                ->exists())
+
+        if(!$this->tangCaRepository->getTangCaHomNay(Auth::user()->id_nhanvien))
                 return redirect('private/chamcong')->with('thongbao','Không Có Tăng Ca Hôm Nay');
+
         $tangca = tbl_tangca::where('id_nhanvien',Auth::user()->id_nhanvien)
                 ->orderBy('id_tangca','DESC')
                 ->first();
-        $lichsu = tbl_tangca::where('id_nhanvien',Auth::user()->id_nhanvien)->get();
+
+        $lichsu = $this->tangCaRepository->getAllByIdNhanVien(Auth::user()->id_nhanvien);
+
         return view('layout.chamcong.frmtangca',compact('tangca','lichsu'));
     }
     
-    public function checkinTangCa(){
-        $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
-                ->where('check_in',date('Y-m-d'))
-                ->orderBy('id_tangca','DESC')
-                ->first();
-        $tangca->check_in = date('Y-m-d H:i:s');
-        $tangca->save();
-        return redirect('private/chamcong/tangca')->with('thongbao','Đã checkin');
+    public function checkinTangCa()
+    {
+        $tangca = $this->tangCaRepository->getByNhanVienAndDate(Auth::user()->id_nhanvien, date('Y-m-d'));
+        $this->tangCaRepository->updateCheckIn($tangca, date('Y-m-d H:i:s'));
+
+        return redirect('private/chamcong/tangca')->with('thongbao', 'Đã checkin');
     }
- 
-    public function checkoutTangCa(){
-        $tangca = tbl_tangca::where('id_nhanvien',Auth::User()->id_nhanvien)
-                ->where('check_in','like', date('Y-m-d').'%')
-                ->orderBy('id_tangca','DESC')
-                ->first();
-        $tangca->thoi_gian_lam = (strtotime(date('Y-m-d H:i:s')) - strtotime($tangca->check_in)) / 3600;
-        $min = ($tangca->thoi_gian_lam-intval($tangca->thoi_gian_lam))*60;
-        $tangca->save();
-        return redirect('private/chamcong/tangca')->with('thongbao','Đã checkout. Hôm nay bạn đã tăng ca được '.intval($tangca->thoi_gian_lam).' tiếng '.intval($min)." phút");       
+
+    public function checkoutTangCa()
+    {
+        $tangca = $this->tangCaRepository->getByNhanVienAndDate(Auth::user()->id_nhanvien, date('Y-m-d'));
+        $this->tangCaRepository->updateCheckoutTime($tangca, date('Y-m-d H:i:s'));
+
+        $thoiGianLam = $tangca->thoi_gian_lam;
+        $min = ($thoiGianLam - intval($thoiGianLam)) * 60;
+
+        return redirect('private/chamcong/tangca')->with(
+            'thongbao',
+            'Đã checkout. Hôm nay bạn đã tăng ca được ' . intval($thoiGianLam) . ' tiếng ' . intval($min) . ' phút'
+        );
     }
- 
-    public function getChiTietTangCa($id_tangca){
-        $tangca = tbl_tangca::where('id_tangca',$id_tangca)->first();
-        return view('layout.chamcong.chitietTangCa',compact('tangca'));
+
+    public function getChiTietTangCa($id_tangca)
+    {
+        $tangca = $this->tangCaRepository->getById($id_tangca);
+        return view('layout.chamcong.chitietTangCa', compact('tangca'));
     }
 }
  

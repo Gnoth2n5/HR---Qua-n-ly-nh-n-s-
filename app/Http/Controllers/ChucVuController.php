@@ -14,15 +14,13 @@ class ChucVuController extends Controller
 {
     public function getThemCV(){
         $phongban = tbl_phongban::all();
-        $permissions=tbl_permissions::all();
+        $permissions = tbl_permissions::all();
         return view('layout.chucvu.themCV',compact('phongban','permissions'));
     }
 
     public function postThemCV(Request $request){
         $this->validate($request,
-            ['ten_chuc_vu'=>'unique:tbl_chucvu',
-
-            ],
+            ['ten_chuc_vu'=>'unique:tbl_chucvu'],
             [
                 'ten_chuc_vu.unique'=>'Tên chức vụ đã tồn tại.',
             ]);

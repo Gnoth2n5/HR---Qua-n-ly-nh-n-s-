@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\tbl_hosonhanvien;
 use App\Models\tbl_baohiem;
+use App\Http\Requests\BHYTRequest;
+use App\Repositories\Eloquents\BHYTRepository;
+use App\Repositories\Eloquents\HoSoNhanVienRepository;
 
 class BaoHiemController extends Controller
 {
+
     public function getThemBH($id_nhanvien)
     {
         $nhanvien = tbl_hosonhanvien::findOrFail($id_nhanvien);
         return view('layout.baohiem.themBH', compact('nhanvien'));
     }
 
-    public function postThemBH(Request $request)
+    public function postThemBH(BHYTRequest $request)
     {
-        $request->validate([
-            'so_bhyt' => 'required|string|max:255',
-            'ngay_cap_bhyt' => 'required|date',
-            'noi_cap_bhyt' => 'required|string|max:255',
-            'so_bhxh' => 'required|string|max:255',
-            'ngay_cap_bhxh' => 'required|date',
-            'noi_cap_bhxh' => 'required|string|max:255',
-        ]);
+        $request->validated();
 
         $nhanvien = tbl_hosonhanvien::findOrFail($request->id_nhanvien);
         $baohiem = tbl_baohiem::create([
@@ -46,14 +42,9 @@ class BaoHiemController extends Controller
         return view('layout.baohiem.suaBH', compact('nhanvien'));
     }
 
-    public function postSuaBH(Request $request, $id_baohiem)
+    public function postSuaBH(BHYTRequest $request, $id_baohiem)
     {
-        $request->validate([
-            'so_bhyt' => 'required|string|max:255',
-            'ngay_cap_bhyt' => 'required|date',
-            'so_bhxh' => 'required|string|max:255',
-            'ngay_cap_bhxh' => 'required|date',
-        ]);
+        $request->validated();
 
         $baohiem = tbl_baohiem::findOrFail($id_baohiem);
         $baohiem->update([

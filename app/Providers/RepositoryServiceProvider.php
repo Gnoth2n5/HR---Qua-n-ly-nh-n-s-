@@ -11,7 +11,25 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            'App\Repositories\Interfaces\BaseInterface',
+            'App\Repositories\Eloquents\BaseRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\BHYTInterface',
+            'App\Repositories\Eloquents\BHYTRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\HoSoNhanVienInterface',
+            'App\Repositories\Eloquents\HoSoNhanVienRepository'
+        );
+
+        $this->app->bind(
+            'App\Repositories\Interfaces\ChamCongInterface',
+            'App\Repositories\Eloquents\ChamCongRepository'
+        );
     }
 
     /**
